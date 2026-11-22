@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.so
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.DS_Store
+*.log
+
+# 完整实验输出在本地生成；仓库只保留三张关键图。
+results/*
+!results/layer_alpha_fine.png
+!results/control_comparison_fine.png
+!results/capability_loss.png
