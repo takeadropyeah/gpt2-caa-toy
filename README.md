@@ -41,6 +41,10 @@ L7 和 L8 基本一样，L9 开始下降。粗扫里的 L4、L6、L10 都比 L7/
 
 L8 在全量 20 个 prompt 上最好，L7 在 15 个 train prompt 上最好，两者差距很小。
 
+![L7 到 L9 的 layer × alpha 热图](results/layer_alpha_fine.png)
+
+图中每一格是相对 α=0 的 ΔlogP。蓝色表示往负情感推，红色表示往正情感推。
+
 ### 对照
 
 在 L7 上比较：
@@ -55,6 +59,10 @@ L8 在全量 20 个 prompt 上最好，L7 在 15 个 train prompt 上最好，�
 真实方向的摆动明显大于 shuffle-label 和随机方向。
 
 shuffle-label 单个 seed 会波动，5 个 seed 平均后基本回到基线，所以这个对照要看平均值。
+
+![真实方向、bootstrap、shuffle-label 和随机方向](results/control_comparison_fine.png)
+
+红色是真实方向，橙色是 bootstrap，灰色是 shuffle-label，蓝色是随机方向。两个负对照都贴着基线。
 
 ### held-out
 
@@ -87,13 +95,17 @@ baseline 的 loss 是 3.5948，ppl 是 36.41。
 
 shuffle 方向在 L7/L8 的 +8 上分别是 37.26 和 36.83，说明随便加一个方向本身也会带来一点扰动。
 
+![能力损失](results/capability_loss.png)
+
+柱子是困惑度相对 baseline 的涨幅。越高表示语言建模能力掉得越多。
+
 ## 图怎么看
 
-`results/layer_alpha_fine.png` 是 layer × alpha 热图。颜色是相对 α=0 的变化：蓝色表示往负情感推，红色表示往正情感推。
+热图里横轴是 α，纵轴是层，颜色是相对 α=0 的 ΔlogP。越红越偏正面，越蓝越偏负面，白色是没变化。
 
-`results/control_comparison_fine.png` 是真实方向、bootstrap、shuffle-label、随机方向的对照。真实方向明显更高或更低，两个负对照都贴着基线。
+对照图里，真实方向和 bootstrap 会随着 α 明显上升或下降，shuffle-label 和随机方向基本是一条平线。
 
-`results/capability_loss.png` 是困惑度相对 baseline 的变化。柱子越高，语言建模能力掉得越多。
+能力损失图里，baseline 是 0，其他柱子是 ppl 相对 baseline 涨了百分之多少。柱子越高，能力损失越大。
 
 ## 怎么运行
 
